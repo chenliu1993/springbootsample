@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    environment {
+        JOB_NAME = 'springsample-unit-test'
+    }
+
+    stages {
+        stage('Checkout codes') {
+            steps {
+                echo 'Checkout codes'
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '${GITHUB_PR_SOURCE_BRANCH}']],
+                    userRemoteConfigs: [[credentialsId:  'dce2dba9-82cc-4355-9a92-f5dc2049b45b', url: 'git@github.com:chenliu1993/springbootsample.git']]])
+                    // sh 'git checkout ${GITHUB_PR_SOURCE_BRANCH}'
+            }
+        }
+        stage('PR Unit Test') {
+            steps {
+                echo 'Start'
+                sh 'make unittest'
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Unit tests succeed, clean up the environment'
+            setGitHubPullRequestStatus context: 'springsample-unit-test', message: 'Unit test succeed', state: 'SUCCESS' 
+            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test Success.'), statusVerifier: allowRunOnStatus("SUCCESS"), errorHandler: statusOnPublisherError("UNSTABLE")
+        
+        }
+        failure {
+            echo 'E2E tests failed, clean up the environment'
+            setGitHubPullRequestStatus context: 'springsample-unit-test', message: 'Unit test succeed', state: 'FAILURE'
+            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test Success.'), statusVerifier: allowRunOnStatus("FAILURE"), errorHandler: statusOnPublisherError("UNSTABLE")
+        }
+        always {
+            deleteDir()
+        }
+    }
+}
