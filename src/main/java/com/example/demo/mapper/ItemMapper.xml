@@ -6,7 +6,7 @@
 	</select>
 	
 	<select id="findOne" resultType="com.example.demo.domain.Item">
-		select * from item where id= #{id}
+		select * from item where id=#{id}
 	</select>
 	
 	<insert id="save" useGeneratedKeys="true" keyProperty="id">
@@ -14,10 +14,11 @@
 	</insert>
 	
 	<update id="update">
-		update item set name=#{name}, price=#{price}, vendor=#{vendor} where id= #{id}
+		update item set name=#{name}, price=#{price}, vendor=#{vendor} where id=#{id}
 	</update>
 	
 	<delete id="delete">
-		delete from item where id = #{id}
+		delete from item where id=#{id}
 	</delete>
 </mapper>
+
