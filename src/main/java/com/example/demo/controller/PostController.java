@@ -13,64 +13,64 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.domain.Item;
-import com.example.demo.service.ItemService;
+import com.example.demo.domain.Post;
+import com.example.demo.service.PostService;
 
 @Controller
-@RequestMapping("/items")
-public class ItemController {
+@RequestMapping("/posts")
+public class PostController {
 
 	@Autowired
-	private ItemService itemService;
+	private PostService postService;
 	
 	@GetMapping
 	public String index(Model model) {
-		model.addAttribute("items", itemService.findAll());
+		model.addAttribute("posts", postService.findAll());
 		return "index";
 	}
 	
 	@GetMapping("{id}")
 	public String show(@PathVariable Long id, Model model) {
-		model.addAttribute("item", itemService.findOne(id));
+		model.addAttribute("post", postService.findOne(id));
 		return "show";
 	}
 	
 	@GetMapping("new")
-	public String newItem(@ModelAttribute("item") Item item, Model model) {
+	public String newPost(@ModelAttribute("post") Post post, Model model) {
 		return "new";
 	}
 	
 	@GetMapping("{id}/edit")
-	public String edit(@PathVariable Long id, @ModelAttribute("item") Item item, Model model) {
-		model.addAttribute("item", itemService.findOne(id));
+	public String edit(@PathVariable Long id, @ModelAttribute("post") Post post, Model model) {
+		model.addAttribute("post", postService.findOne(id));
 		return "edit";
 	}
 	
 	@PostMapping
-	public String create(@ModelAttribute("item") @Validated Item item, BindingResult result, Model model) {
+	public String create(@ModelAttribute("post") @Validated Post post, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "new";
 		} else {
-			itemService.save(item);
-			return "redirect:/items";
+			postService.save(post);
+			return "redirect:/posts";
 		}
 	}
 	
 	@PutMapping("{id}")
-	public String update(@PathVariable Long id, @ModelAttribute("item") @Validated Item item, BindingResult result, Model model) {
+	public String update(@PathVariable Long id, @ModelAttribute("post") @Validated Post post, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute("item", item);
+			model.addAttribute("post", post);
 			return "edit";
 		} else {
-			item.setId(id);
-			itemService.update(item);
-			return "redirect:/items";
+			post.setId(id);
+			postService.update(post);
+			return "redirect:/posts";
 		}
 	}
 	
 	@DeleteMapping("{id}")
 	public String delete(@PathVariable Long id) {
-		itemService.delete(id);
-		return "redirect:/items"; 
+		postService.delete(id);
+		return "redirect:/posts"; 
 	}
 }

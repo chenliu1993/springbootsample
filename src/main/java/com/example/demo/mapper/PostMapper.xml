@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PostMapper">
+	<select id="findAll" resultType="com.example.demo.domain.Post">
+		select * from post
+	</select>
+	
+	<select id="findOne" resultType="com.example.demo.domain.Post">
+		select * from post where id= #{id}
+	</select>
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+		insert into post(userID,theme,path,content,author) values(#{userID},#{theme},#{path},#{content},#{author})
+	</insert>
+	
+	<update id="update">
+		update post set userID=#{userID},theme=#{theme},path=#{path},content=#{content},author=#{author} where id= #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from post where id = #{id}
+	</delete>
+
+	<select id="findUserByName" resultType="int">
+		select id from user where name=#{name}
+	</select>
+</mapper>
