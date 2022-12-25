@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS user (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   name varchar(64),
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS post (
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS post (
   theme varchar(64),
   path varchar(64),
   content varchar(255),
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
