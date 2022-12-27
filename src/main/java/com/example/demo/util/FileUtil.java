@@ -13,7 +13,8 @@ public final class FileUtil {
         if(fileUtil == null) fileUtil = new FileUtil();
     }
 
-    private final String  postDir = "/tmp";
+    public final String postDir = "/tmp";
+
     public void WriteToPost(String postFileName, String content) {
         try {
             File post = new File(postFileName);

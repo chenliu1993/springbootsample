@@ -14,6 +14,4 @@ public interface PostMapper {
 	void update(Post post);
 	
 	void delete(Long id);
-
-	int findUserByName(String name);
 }

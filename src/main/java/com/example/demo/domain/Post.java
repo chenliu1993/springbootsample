@@ -9,8 +9,6 @@ import lombok.Data;
 public class Post {
     private Long id;
     private Long userID;
-    private String author;
     private String theme;
     private String path;
-    private String content;
 }

@@ -40,4 +40,14 @@ public class UserService {
 		userMapper.delete(id);
 	}
 
+	@Transactional
+	public String findUserByName(String name) {
+		return String.valueOf(userMapper.findUserByName(name));
+	}
+
+	@Transactional
+	public String findNameById(Long id) {
+		return userMapper.findNameById(id);
+	}
+
 }

@@ -6,9 +6,17 @@
 	</select>
 	
 	<select id="findOne" resultType="com.example.demo.domain.User">
-		select * from user where id= #{id}
+		select * from user where id=#{id}
 	</select>
 	
+	<select id="findUserByName" resultType="long">
+		select id from user where name=#{name}
+	</select>
+
+	<select id="findNameById" resultType="string">
+		select name from user where id=#{id}
+	</select>
+
 	<insert id="save" useGeneratedKeys="true" keyProperty="id">
 		insert into user(name) values(#{name})
 	</insert>
