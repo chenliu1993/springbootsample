@@ -29,9 +29,9 @@ pipeline {
         
         }
         failure {
-            echo 'E2E tests failed, clean up the environment'
-            setGitHubPullRequestStatus context: 'springsample-unit-test', message: 'Unit test succeed', state: 'FAILURE'
-            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test Success.'), statusVerifier: allowRunOnStatus("FAILURE"), errorHandler: statusOnPublisherError("UNSTABLE")
+            echo 'Unit tests failed, clean up the environment'
+            setGitHubPullRequestStatus context: 'springsample-unit-test', message: 'Unit test fail', state: 'FAILURE'
+            githubPRComment comment: githubPRMessage('SpringBoot Sample Unit Test failed.'), statusVerifier: allowRunOnStatus("FAILURE"), errorHandler: statusOnPublisherError("UNSTABLE")
         }
         always {
             deleteDir()
