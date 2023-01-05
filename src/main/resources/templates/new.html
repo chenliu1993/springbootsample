@@ -4,43 +4,43 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/css/bootstrap.min.css" />
-	<title>商品新規</title>
+	<title>My Posts</title>
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="/items">商品管理デモ</a>
+				<a class="navbar-brand" href="/posts">MyBlogデモ</a>
 			</div>
 		</div>
     </nav>
 	<div class="container">
 		<div class="card card-primary mb-3">
 	  			<div class="card-header">
-	  				<h5 class="card-title">商品新規</h5>
+	  				<h5 class="card-title">Posts</h5>
 	  			</div>
 				<div class="card-body">
-	      			<form th:method="post" th:action="@{/items}" th:object="${item}">
+	      			<form th:method="post" th:action="@{/posts}" th:object="${post}">
 	        			<div class="form-group row">
-	          				<label class="col-md-2 control-label">商品名</label>
+	          				<label class="col-md-2 control-label">Post Name</label>
 	          				<div class="col-md-10">
-	            				<input class="form-control" type="text" name="name" th:value="*{name}" />
+	            				<input class="form-control" type="text" name="theme" th:value="*{theme}" />
 								<!-- th:xxx is the thymyleaf function -->
-	            				<div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+	            				<div class="text-danger" th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}"></div>
 	          				</div>
 	        			</div>
 	        			<div class="form-group row">
-	          				<label class="col-md-2 control-label">価格</label>
+	          				<label class="col-md-2 control-label">Content</label>
 	          				<div class="col-md-10">
-	            				<input class="form-control" type="text" name="price" th:value="*{price}"/>
-	            				<div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+	            				<input class="form-control" type="text" name="content" th:value="*{content}"/>
+	            				<div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
 	          				</div>
 	        			</div>
 	        			<div class="form-group row">
-	          				<label class="col-md-2 control-label">ベンダー</label>
+	          				<label class="col-md-2 control-label">Author</label>
 	          				<div class="col-md-10">
-	            				<input class="form-control" type="text" name="vendor" th:value="*{vendor}" />
-	            				<div class="text-danger" th:if="${#fields.hasErrors('vendor')}" th:errors="*{vendor}"></div>
+	            				<input class="form-control" type="text" name="author" th:value="*{author}" />
+	            				<div class="text-danger" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
 	          				</div>
 	        			</div>
 	        			<div class="form-group row">

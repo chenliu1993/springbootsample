@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class LogAspect {
-    @Pointcut("execution(public * com.example.demo.service.ItemService.*(..))")
+    @Pointcut("execution(public * com.example.demo.util.FileUtil.*(..))")
     private void pointCut(){};
 
     @Before("pointCut()")
