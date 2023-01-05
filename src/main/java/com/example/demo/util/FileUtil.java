@@ -4,8 +4,13 @@ import lombok.NoArgsConstructor;
 import java.io.*;
 import java.util.UUID;
 
+import com.example.demo.domain.Post;
+
+import lombok.extern.slf4j.Slf4j;
+
 
 @NoArgsConstructor
+@Slf4j
 public final class FileUtil {
 
     private static FileUtil fileUtil = null;
@@ -16,37 +21,33 @@ public final class FileUtil {
     public final String postDir = "/tmp";
 
     public void WriteToPost(String postFileName, String content) {
+        FileOutputStream post = null;
         try {
-            File post = new File(postFileName);
-            if(!post.exists()){
-                post.createNewFile();
-            }
-            FileWriter writer = new FileWriter(post);
-            
-            writer.write(content);
-            writer.flush();
-            writer.close();
-        } catch(Exception e) {
+            post = new FileOutputStream(postFileName);
+            post.write(content.getBytes());
+            post.close();
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        } catch(IOException e) {
             e.printStackTrace();
         }
         System.out.println("write to file finished");
     }
 
     public String ReadFromPost(String postFileName) {
-        char[] input = new char[255];
+        FileInputStream post = null;
+        String result = "";
         try {
-            File post = new File(postFileName);
-            if(!post.exists()){
-                throw new FileNotFoundException("file doesn't exists");
-            }
-            FileReader reader = new FileReader(post);
+            post = new FileInputStream(postFileName);
+            byte[] input = new byte[1024];
           
-            reader.read(input);
-            reader.close();
-        } catch(Exception e) {
+            int length = post.read(input);
+            result = new String(input, 0, length);
+            post.close();
+        } catch(IOException e) {
             e.printStackTrace();
         }
-        return input.toString();
+        return result;
     }
 
     public String generateFileName(String userID) {

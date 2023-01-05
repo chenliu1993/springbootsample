@@ -19,10 +19,13 @@ import com.example.demo.service.PostService;
 import com.example.demo.service.UserService;
 import com.example.demo.util.FileUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.*;
 
 @Controller
 @RequestMapping("/posts")
+@Slf4j
 public class PostController {
 
 	@Autowired
@@ -41,9 +44,13 @@ public class PostController {
 		List<Post> allPosts = postService.findAll();
 		for(int i=0;i<allPosts.size();i++) {
 			PostEntity postEntity = new PostEntity();
+			log.info(String.valueOf(allPosts.get(i).getId()));
 			postEntity.setId(allPosts.get(i).getId());
+			log.info(userService.findNameById(allPosts.get(i).getUserID()));
 			postEntity.setAuthor(userService.findNameById(allPosts.get(i).getUserID()));
+			log.info(allPosts.get(i).getTheme());
 			postEntity.setTheme(allPosts.get(i).getTheme());
+			log.info(fileUtil.ReadFromPost(allPosts.get(i).getPath()));
 			postEntity.setContent(fileUtil.ReadFromPost(allPosts.get(i).getPath()));
 			postEntities.add(postEntity);
 		}
@@ -56,8 +63,14 @@ public class PostController {
 	public String show(@PathVariable Long id, Model model) {
 		Post post = postService.findOne(id);
 		PostEntity postEntity = new PostEntity();
+		log.info(String.valueOf(post.getId()));
 		postEntity.setId(post.getId());
+		log.info(userService.findNameById(post.getUserID()));
 		postEntity.setAuthor(userService.findNameById(post.getUserID()));
+		log.info(post.getTheme());
+		postEntity.setTheme(post.getTheme());
+		log.info(post.getPath());
+		log.info(fileUtil.ReadFromPost(post.getPath()));
 		postEntity.setContent(fileUtil.ReadFromPost(post.getPath()));
 
 		model.addAttribute("post", postEntity);
@@ -72,6 +85,7 @@ public class PostController {
 	@GetMapping("{id}/edit")
 	public String edit(@PathVariable Long id, @ModelAttribute("post") PostEntity postEntity, Model model) {
 		Post post = postService.findOne(id);
+		postEntity.setTheme(post.getTheme());
 		postEntity.setId(post.getId());
 		postEntity.setAuthor(userService.findNameById(post.getUserID()));
 		postEntity.setContent(fileUtil.ReadFromPost(post.getPath()));

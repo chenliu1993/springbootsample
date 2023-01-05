@@ -36,13 +36,16 @@ public class PostService {
 
 	@Transactional
 	public void save(PostEntity postEntity) {
-		UUID uuid = UUID.randomUUID();
+		// UUID uuid = UUID.randomUUID();
 		Post post = new Post();
+		if(postEntity.getId()==null){
+			postEntity.setId((Long)1);
+		}
 		post.setId(postEntity.getId());
 		post.setUserID(userMapper.findUserByName(postEntity.getAuthor()));
 		post.setTheme(postEntity.getTheme());
 
-		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + uuid.toString() + ".txt";
+		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + post.getId() + ".txt";
 		fileUtil.WriteToPost(path, postEntity.getContent());
 		post.setPath(path);
 
@@ -51,13 +54,13 @@ public class PostService {
 
 	@Transactional
 	public void update(PostEntity postEntity) {
-		UUID uuid = UUID.randomUUID();
+		// UUID uuid = UUID.randomUUID();
 		Post post = new Post();
 		post.setId(postEntity.getId());
 		post.setUserID(userMapper.findUserByName(postEntity.getAuthor()));
 		post.setTheme(postEntity.getTheme());
 
-		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + uuid.toString()+ ".txt";
+		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + post.getId()+ ".txt";
 		fileUtil.WriteToPost(path, postEntity.getContent());
 		post.setPath(path);
 		postMapper.update(post);

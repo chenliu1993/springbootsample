@@ -1,7 +1,7 @@
 
 
 .PHONY: run
-springrun: #### helper command for deploying the sample
+run: #### helper command for deploying the sample
 	@mvn spring-boot:run
 
 .PHONY: unittest

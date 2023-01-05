@@ -1,2 +1,2 @@
-insert into post(userID,theme,path) values(1,"Hello World", "/tmp/1-1.txt");
-insert into user(name) values("Root");
+insert into post(userID,theme,path) values(1,"Hello World", "/tmp/1-1.txt") where not exists(select path from post where path="/tmp/1-1/txt");
+insert into user(name) values("Root") where not exists(select name from user where user="Root");
