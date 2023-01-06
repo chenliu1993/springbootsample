@@ -2,10 +2,13 @@ package com.example.demo.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.io.IOException;
+import java.nio.file.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import com.example.demo.domain.Post;
 import com.example.demo.domain.PostEntity;
@@ -39,13 +42,13 @@ public class PostService {
 		// UUID uuid = UUID.randomUUID();
 		Post post = new Post();
 		if(postEntity.getId()==null){
-			postEntity.setId((Long)1);
+			postEntity.setId(Long.valueOf(postMapper.getPostsNum()+1));
 		}
 		post.setId(postEntity.getId());
 		post.setUserID(userMapper.findUserByName(postEntity.getAuthor()));
 		post.setTheme(postEntity.getTheme());
 
-		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + post.getId() + ".txt";
+		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + postEntity.getId() + ".txt";
 		fileUtil.WriteToPost(path, postEntity.getContent());
 		post.setPath(path);
 
@@ -55,19 +58,25 @@ public class PostService {
 	@Transactional
 	public void update(PostEntity postEntity) {
 		// UUID uuid = UUID.randomUUID();
-		Post post = new Post();
-		post.setId(postEntity.getId());
-		post.setUserID(userMapper.findUserByName(postEntity.getAuthor()));
+		Post post = postMapper.findOne(postEntity.getId());
+		// post.setId(postEntity.getId());
+		// post.setUserID(userMapper.findUserByName(postEntity.getAuthor()));
 		post.setTheme(postEntity.getTheme());
 
-		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + post.getId()+ ".txt";
-		fileUtil.WriteToPost(path, postEntity.getContent());
-		post.setPath(path);
+		// String path = fileUtil.postDir + "/" + post.getUserID() + "-" +uuid.toString()+ ".txt";
+		fileUtil.WriteToPost(post.getPath(), postEntity.getContent());
+		// post.setPath(path);
 		postMapper.update(post);
 	}
 
 	@Transactional
 	public void delete(Long id) {
+		Post post = postMapper.findOne(id);
+		try {
+			Files.deleteIfExists(Paths.get(post.getPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		postMapper.delete(id);
 	}
     

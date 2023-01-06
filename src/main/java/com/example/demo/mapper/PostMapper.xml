@@ -5,6 +5,10 @@
 		select * from post
 	</select>
 	
+	<select id="getPostsNum" resultType="int">
+	    select count(*) from post
+	</select>
+	
 	<select id="findOne" resultType="com.example.demo.domain.Post">
 		select * from post where id=#{id}
 	</select>

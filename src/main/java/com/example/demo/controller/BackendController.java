@@ -26,7 +26,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/posts")
 @Slf4j
-public class PostController {
+public class BackendController {
 
 	@Autowired
 	private PostService postService;

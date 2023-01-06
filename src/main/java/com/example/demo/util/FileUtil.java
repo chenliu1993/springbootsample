@@ -4,7 +4,7 @@ import lombok.NoArgsConstructor;
 import java.io.*;
 import java.util.UUID;
 
-import com.example.demo.domain.Post;
+// import com.example.demo.domain.Post;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +15,7 @@ public final class FileUtil {
 
     private static FileUtil fileUtil = null;
     static {
+        log.info("Initialize the FileUtil instance");
         if(fileUtil == null) fileUtil = new FileUtil();
     }
 
