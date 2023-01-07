@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.UUID;
+// import java.util.UUID;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -50,6 +50,7 @@ public class PostService {
 			User user=new User();
 			user.setId(userId);
 			user.setName(postEntity.getAuthor());
+			
 			userMapper.save(user);
 		}
 		
@@ -61,10 +62,10 @@ public class PostService {
 		post.setId(postEntity.getId());
 
 		post.setTheme(postEntity.getTheme());
+
 		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + String.valueOf(postMapper.getPostsNumWithAuthor(post.getUserID())+1) + ".txt";
 		fileUtil.WriteToPost(path, postEntity.getContent());
 		post.setPath(path);
-
 		postMapper.save(post);
 	}
 
@@ -72,13 +73,9 @@ public class PostService {
 	public void update(PostEntity postEntity) {
 		// UUID uuid = UUID.randomUUID();
 		Post post = postMapper.findOne(postEntity.getId());
-		// post.setId(postEntity.getId());
-		// post.setUserID(userMapper.findUserByName(postEntity.getAuthor()));
 		post.setTheme(postEntity.getTheme());
 
-		// String path = fileUtil.postDir + "/" + post.getUserID() + "-" +uuid.toString()+ ".txt";
 		fileUtil.WriteToPost(post.getPath(), postEntity.getContent());
-		// post.setPath(path);
 		postMapper.update(post);
 	}
 
