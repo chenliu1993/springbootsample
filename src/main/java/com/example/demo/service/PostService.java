@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Post;
 import com.example.demo.domain.PostEntity;
+import com.example.demo.domain.User;
 import com.example.demo.mapper.PostMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.util.FileUtil;
@@ -41,14 +42,26 @@ public class PostService {
 	public void save(PostEntity postEntity) {
 		// UUID uuid = UUID.randomUUID();
 		Post post = new Post();
+
+		Long userId = userMapper.findUserByName(postEntity.getAuthor());
+		if(userId==null) {
+			// New user, for now we create it...
+			userId=Long.valueOf(userMapper.getUsersNum()+1);
+			User user=new User();
+			user.setId(userId);
+			user.setName(postEntity.getAuthor());
+			userMapper.save(user);
+		}
+		
+		post.setUserID(userId);
+
 		if(postEntity.getId()==null){
 			postEntity.setId(Long.valueOf(postMapper.getPostsNum()+1));
 		}
 		post.setId(postEntity.getId());
-		post.setUserID(userMapper.findUserByName(postEntity.getAuthor()));
-		post.setTheme(postEntity.getTheme());
 
-		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + postEntity.getId() + ".txt";
+		post.setTheme(postEntity.getTheme());
+		String path = fileUtil.postDir + "/" + post.getUserID() + "-" + String.valueOf(postMapper.getPostsNumWithAuthor(post.getUserID())+1) + ".txt";
 		fileUtil.WriteToPost(path, postEntity.getContent());
 		post.setPath(path);
 

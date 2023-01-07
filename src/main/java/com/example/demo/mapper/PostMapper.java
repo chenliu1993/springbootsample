@@ -15,5 +15,7 @@ public interface PostMapper {
 	
 	void delete(Long id);
 
+	int getPostsNumWithAuthor(Long userId);
+
 	int getPostsNum();
 }

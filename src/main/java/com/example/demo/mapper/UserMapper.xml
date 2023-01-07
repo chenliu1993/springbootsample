@@ -17,12 +17,16 @@
 		select name from user where id=#{id}
 	</select>
 
+	<select id="getUsersNum" resultType="int">
+	    select count(*) from user
+	</select>
+
 	<insert id="save" useGeneratedKeys="true" keyProperty="id">
 		insert into user(name) values(#{name})
 	</insert>
 	
 	<update id="update">
-		update user set name=#{name} where id= #{id}
+		update user set name=#{name} where id=#{id}
 	</update>
 	
 	<delete id="delete">

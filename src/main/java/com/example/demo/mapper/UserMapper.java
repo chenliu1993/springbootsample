@@ -19,5 +19,8 @@ public interface UserMapper {
 	void delete(Long id);
 	
 	Long findUserByName(String name);
+	
 	String findNameById(Long id);
+
+	int getUsersNum();
 }

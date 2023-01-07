@@ -5,6 +5,10 @@
 		select * from post
 	</select>
 	
+	<select id="getPostsNumWithAuthor" resultType="int">
+	    select count(*) from post where userID=#{userId}
+	</select>
+
 	<select id="getPostsNum" resultType="int">
 	    select count(*) from post
 	</select>
