@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresGuest;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,23 +38,20 @@ public class BackendController {
 	@Autowired
 	private UserService userService;
 
-	private FileUtil fileUtil = new FileUtil();
+	private FileUtil fileUtil = FileUtil.fileUtil;
 
-
-	
 	@GetMapping
 	public String index(Model model) {
 		List<PostEntity> postEntities = new LinkedList<PostEntity>();
 		List<Post> allPosts = postService.findAll();
 		for(int i=0;i<allPosts.size();i++) {
 			PostEntity postEntity = new PostEntity();
-			log.info(String.valueOf(allPosts.get(i).getId()));
+			log.debug("PostId is %d", String.valueOf(allPosts.get(i).getId()));
 			postEntity.setId(allPosts.get(i).getId());
-			log.info(userService.findNameById(allPosts.get(i).getUserID()));
+			log.debug("Post Author is %s", userService.findNameById(allPosts.get(i).getUserID()));
 			postEntity.setAuthor(userService.findNameById(allPosts.get(i).getUserID()));
-			log.info(allPosts.get(i).getTheme());
+			log.debug("Post Theme is %s", allPosts.get(i).getTheme());
 			postEntity.setTheme(allPosts.get(i).getTheme());
-			log.info(fileUtil.ReadFromPost(allPosts.get(i).getPath()));
 			postEntity.setContent(fileUtil.ReadFromPost(allPosts.get(i).getPath()));
 			postEntities.add(postEntity);
 		}
@@ -58,19 +59,20 @@ public class BackendController {
 		model.addAttribute("posts", postEntities);
 		return "index";
 	}
-	
+
+	// @RequiresGuest
+	@RequiresUser
 	@GetMapping("{id}")
 	public String show(@PathVariable Long id, Model model) {
 		Post post = postService.findOne(id);
 		PostEntity postEntity = new PostEntity();
-		log.info(String.valueOf(post.getId()));
+		log.debug("Post id is %d", String.valueOf(post.getId()));
 		postEntity.setId(post.getId());
-		log.info(userService.findNameById(post.getUserID()));
+		log.debug("Post Author is %s", userService.findNameById(post.getUserID()));
 		postEntity.setAuthor(userService.findNameById(post.getUserID()));
-		log.info(post.getTheme());
+		log.debug("Post theme is %s", post.getTheme());
 		postEntity.setTheme(post.getTheme());
-		log.info(post.getPath());
-		log.info(fileUtil.ReadFromPost(post.getPath()));
+		log.debug("Post stored path is %s", post.getPath());
 		postEntity.setContent(fileUtil.ReadFromPost(post.getPath()));
 
 		model.addAttribute("post", postEntity);

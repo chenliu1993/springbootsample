@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class FileUtil {
 
-    private static FileUtil fileUtil = null;
+    public static FileUtil fileUtil = null;
     static {
         log.info("Initialize the FileUtil instance");
         if(fileUtil == null) fileUtil = new FileUtil();
