@@ -60,8 +60,8 @@ public class BackendController {
 		return "index";
 	}
 
-	// @RequiresGuest
-	@RequiresUser
+	@RequiresGuest
+	// @RequiresUser
 	@GetMapping("{id}")
 	public String show(@PathVariable Long id, Model model) {
 		Post post = postService.findOne(id);
