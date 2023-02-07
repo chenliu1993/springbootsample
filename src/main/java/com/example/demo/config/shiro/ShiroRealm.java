@@ -35,14 +35,14 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
         Long userId = userMapper.findUserByName(username);
-        log.info("find userId %ld", userId);
+        log.info("find userId "+userId);
         if(userId==null){
             throw new UnknownAccountException("No such user stored");
         }
 
         User user = userMapper.findOne(userId);
-        log.info("User is %v", user);
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, null, getName());
+        log.info("User is "+user);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getName(), "", getName());
         return info;
     }
 

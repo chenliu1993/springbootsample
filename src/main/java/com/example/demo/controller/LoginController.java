@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import com.example.demo.domain.User;
 import com.example.demo.service.UserService;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,20 +36,14 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @RequiresGuest
-    public String checkUser(@ModelAttribute("user") User user, BindingResult result, Model model) {
-        if(result.hasErrors()){
-            return "error";
-        }else{
-            String name = user.getName();
-            // Check if the user is in the db
-            String id = userService.findUserByName(name);
-            if(id==null){
-                log.info("not an validate user %s", name);
-                return "login";
-            }
-        }
+    public String checkUser(@RequestBody User user) {
+        Subject subject = SecurityUtils.getSubject();
+
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), "");
+        subject.login(usernamePasswordToken);
+
         return "redirect:/posts";
     }
 
