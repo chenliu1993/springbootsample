@@ -25,25 +25,25 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 @Slf4j
 public class LoginController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @GetMapping("/login")
     @RequiresGuest
     public String checkUser(@ModelAttribute("user") User user, BindingResult result, Model model) {
         if(result.hasErrors()){
-            return "users";
+            return "error";
         }else{
             String name = user.getName();
             // Check if the user is in the db
             String id = userService.findUserByName(name);
             if(id==null){
-                log.debug("not an validate user %s", name);
-                return "users";
+                log.info("not an validate user %s", name);
+                return "login";
             }
         }
         return "redirect:/posts";

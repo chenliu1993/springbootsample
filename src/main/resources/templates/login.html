@@ -9,7 +9,7 @@
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/users">Users管理デモ</a>
+                    <a class="navbar-brand" href="/user/login">Users管理デモ</a>
                 </div>
             </div>
         </nav>
@@ -19,7 +19,7 @@
                     <h5 class="card-title">ログインしてください</h5>
                 </div>
                 <div class="card-body">
-                    <form action="@{/users}" th:method="get" th:object="{user}">
+                    <form action="@{/user/login}" th:method="get" th:object="{user}">
                         <div class="form-group row">
                             <label class="col-md-2 control-label">user名</label>
                             <div class="col-md-10">
