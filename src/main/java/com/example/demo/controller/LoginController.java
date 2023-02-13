@@ -41,24 +41,10 @@ public class LoginController {
     public String checkUser(@RequestBody User user) {
         Subject subject = SecurityUtils.getSubject();
 
-        if(!subject.IsAuthenticated()) {
+        if( !subject.isAuthenticated() ) {
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), "");
-            usernamePasswordToken.serRememberMe(true);
-            try {
-                subject.login(usernamePasswordToken);
-                //if no exception, that's it, we're done!
-            } catch ( UnknownAccountException uae ) {
-                //username wasn't in the system, show them an error message?
-            } catch ( IncorrectCredentialsException ice ) {
-                //password didn't match, try again?
-            } catch ( LockedAccountException lae ) {
-                //account for that username is locked - can't login.  Show them a message?
-            }
-                ... more types exceptions to check if you want ...
-            } catch ( AuthenticationException ae ) {
-                //unexpected condition - error?
-            }
-           
+            usernamePasswordToken.setRememberMe(true);
+            subject.login(usernamePasswordToken);
         }
     
         return "redirect:/posts";
