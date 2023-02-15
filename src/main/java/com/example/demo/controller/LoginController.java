@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 
 @Controller
-@RequestMapping
+@RequestMapping("/user")
 @Slf4j
 public class LoginController {
 
@@ -40,24 +40,17 @@ public class LoginController {
         return "user";
     }
 
-    @PostMapping("/user")
-    public String checkUser(@ModelAttribute("user") @Validated User user, BindingResult result,
-            Model model) {
-        if (result.hasErrors()) {
-            return "user";
-        } else {
-            Subject subject = SecurityUtils.getSubject();
+    @PostMapping("/login")
+    public String checkUser(@RequestBody User user) {
+        log.info("checkUser");
 
-            if (!subject.isAuthenticated()) {
-                log.info("the user is ", user.getName());
-                UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                        user.getName(), "");
-                usernamePasswordToken.setRememberMe(true);
-                subject.login(usernamePasswordToken);
-                return "redirect:/posts";
-            }
-            return "user";
-        }
+        Subject subject = SecurityUtils.getSubject();
+
+        log.info("the user is ", user.getName());
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), "");
+        usernamePasswordToken.setRememberMe(true);
+        subject.login(usernamePasswordToken);
+        return "redirect:/posts";
 
     }
 
