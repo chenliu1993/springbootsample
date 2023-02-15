@@ -40,6 +40,11 @@ public class BackendController {
 
 	private FileUtil fileUtil = FileUtil.fileUtil;
 
+
+	// this is used for identifying:
+	// 1. setRemebered => true
+	// 2. isAuthenticated => true
+	@RequiresUser
 	@GetMapping
 	public String index(Model model) {
 		List<PostEntity> postEntities = new LinkedList<PostEntity>();
@@ -79,6 +84,7 @@ public class BackendController {
 		return "show";
 	}
 	
+	@RequiresUser
 	@GetMapping("new")
 	public String newPost(@ModelAttribute("post") PostEntity postEntity, Model model) {
 		return "new";
@@ -95,6 +101,7 @@ public class BackendController {
 		return "edit";
 	}
 	
+	@RequiresUser
 	@PostMapping
 	public String create(@ModelAttribute("post") @Validated PostEntity postEntity, BindingResult result, Model model) {
 		if (result.hasErrors()) {
@@ -105,6 +112,7 @@ public class BackendController {
 		}
 	}
 	
+	@RequiresUser
 	@PutMapping("{id}")
 	public String update(@PathVariable Long id, @ModelAttribute("post") @Validated PostEntity postEntity, BindingResult result, Model model) {
 		if (result.hasErrors()) {
@@ -117,6 +125,7 @@ public class BackendController {
 		}
 	}
 	
+	@RequiresUser
 	@DeleteMapping("{id}")
 	public String delete(@PathVariable Long id) {
 		postService.delete(id);

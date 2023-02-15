@@ -34,6 +34,7 @@ public class ShiroConfig {
         // ** means anything at least one
         // "authc" mwans needs auth, "anon" means anonymous
         // Must have error.html in advance
+        filterChainDefinitionMap.put("/user", "anon");
         filterChainDefinitionMap.put("/user/**", "anon");
         filterChainDefinitionMap.put("/posts", "authc");
         filterChainDefinitionMap.put("/posts/**", "authc");

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.example.demo.service.PostService;
+import com.example.demo.util.SystemUtil;
 
 import com.example.demo.domain.PostEntity;
 
@@ -41,9 +42,19 @@ public class DemoApplicationTests {
 
 		System.out.println("=======================================");
 	}
+
+	/* @Test
+	public void TestTranslatePath() {
+		String linuxPath = "/c/test/file";
+
+		SystemUtil systemUtil = new SystemUtil();
+		System.out.println(systemUtil.isWindows());
+		System.out.println(systemUtil.translateIntoWindowsPath(linuxPath));
+		System.out.println("=======================================");
+	}
 	public static void main(String[] args)
     {
 		System.out.println("test");
-    }
+    } */
 
 }

@@ -36,8 +36,13 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/login")
+    public String login(@ModelAttribute("user") User user, Model model) {
+		return "login";
+	}
+
+
     @PostMapping("/login")
-    @RequiresGuest
     public String checkUser(@RequestBody User user) {
         Subject subject = SecurityUtils.getSubject();
 
