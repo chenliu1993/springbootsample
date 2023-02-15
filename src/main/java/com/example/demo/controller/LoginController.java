@@ -29,30 +29,36 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping
 @Slf4j
 public class LoginController {
 
-    @Autowired
-    private UserService userService;
+    @GetMapping("/registeration")
+    public String login(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "user";
+    }
 
-    @GetMapping("/login")
-    public String login(@ModelAttribute("user") User user, Model model) {
-		return "login";
-	}
+    @PostMapping("/user")
+    public String checkUser(@ModelAttribute("user") @Validated User user, BindingResult result,
+            Model model) {
+        if (result.hasErrors()) {
+            return "user";
+        } else {
+            Subject subject = SecurityUtils.getSubject();
 
-
-    @PostMapping("/login")
-    public String checkUser(@RequestBody User user) {
-        Subject subject = SecurityUtils.getSubject();
-
-        if( !subject.isAuthenticated() ) {
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getName(), "");
-            usernamePasswordToken.setRememberMe(true);
-            subject.login(usernamePasswordToken);
+            if (!subject.isAuthenticated()) {
+                log.info("the user is ", user.getName());
+                UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
+                        user.getName(), "");
+                usernamePasswordToken.setRememberMe(true);
+                subject.login(usernamePasswordToken);
+                return "redirect:/posts";
+            }
+            return "user";
         }
-    
-        return "redirect:/posts";
+
     }
 
 }

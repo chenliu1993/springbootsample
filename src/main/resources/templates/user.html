@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
         <title>ログイン</title>
     </head>
     <body>
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/user/login">Users管理デモ</a>
+                    <a class="navbar-brand" href="/posts">MyBlogデモ</a>
                 </div>
             </div>
         </nav>
@@ -19,24 +19,24 @@
                     <h5 class="card-title">ログインしてください</h5>
                 </div>
                 <div class="card-body">
-                    <form action="@{/user/login}" th:method="POST" th:object="{user}">
+                    <form action="@{/user}" th:method="POST" th:object="${user}">
                         <div class="form-group row">
                             <label class="col-md-2 control-label">user名</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" th:field="*{name}" />
-                                <div class="text-danger" th:if="${#fields.hasErrors(name')}" th:errors="*{name}"></div>
+                                <input class="form-control" type="text" th:field="*{name}">
+                                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="offset-md-2 col-md-9">
-                              <input class="btn btn-primary" name="ログインする" type="submit" value="ログインする">
-                          </div>
+                                <button class="btn btn-primary">ログインする</button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>         
-    <script src="/js/jquery-3.4.1.min"></script>
-    <script src="/js/bootstrap.min.js"></script>
+        </div>
+        <script src="/js/jquery-3.4.1.min"></script>
+        <script src="/js/bootstrap.min.js"></script>
     </body>
 </html>

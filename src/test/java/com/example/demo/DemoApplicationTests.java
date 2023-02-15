@@ -16,20 +16,18 @@ import com.example.demo.domain.PostEntity;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DemoApplicationTests {
-	
+
 	// @Autowired
 	// private UserService demoUserService;
 
 	@Autowired
 	private PostService demoPostService;
 
-
-
 	@Test
 	public void TestPostSave() {
-		// AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AspectConfig.class);
-        // demoPostService = context.getBean(PostService.class);
-
+		// AnnotationConfigApplicationContext context = new
+		// AnnotationConfigApplicationContext(AspectConfig.class);
+		// demoPostService = context.getBean(PostService.class);
 
 		// This is the demo postEntity
 		PostEntity testPostEntity = new PostEntity();
@@ -43,18 +41,16 @@ public class DemoApplicationTests {
 		System.out.println("=======================================");
 	}
 
-	/* @Test
+	@Test
 	public void TestTranslatePath() {
 		String linuxPath = "/c/test/file";
-
-		SystemUtil systemUtil = new SystemUtil();
-		System.out.println(systemUtil.isWindows());
-		System.out.println(systemUtil.translateIntoWindowsPath(linuxPath));
+		System.out.println(SystemUtil.isWindows());
+		System.out.println(SystemUtil.translateIntoWindowsPath(linuxPath));
 		System.out.println("=======================================");
 	}
-	public static void main(String[] args)
-    {
+
+	public static void main(String[] args) {
 		System.out.println("test");
-    } */
+	}
 
 }

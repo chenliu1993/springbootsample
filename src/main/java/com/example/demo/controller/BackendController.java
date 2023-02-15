@@ -40,7 +40,6 @@ public class BackendController {
 
 	private FileUtil fileUtil = FileUtil.fileUtil;
 
-
 	// this is used for identifying:
 	// 1. setRemebered => true
 	// 2. isAuthenticated => true
@@ -49,7 +48,7 @@ public class BackendController {
 	public String index(Model model) {
 		List<PostEntity> postEntities = new LinkedList<PostEntity>();
 		List<Post> allPosts = postService.findAll();
-		for(int i=0;i<allPosts.size();i++) {
+		for (int i = 0; i < allPosts.size(); i++) {
 			PostEntity postEntity = new PostEntity();
 			log.debug("PostId is %d", String.valueOf(allPosts.get(i).getId()));
 			postEntity.setId(allPosts.get(i).getId());
@@ -60,12 +59,11 @@ public class BackendController {
 			postEntity.setContent(fileUtil.ReadFromPost(allPosts.get(i).getPath()));
 			postEntities.add(postEntity);
 		}
-		
+
 		model.addAttribute("posts", postEntities);
 		return "index";
 	}
 
-	// @RequiresGuest
 	@RequiresUser
 	@GetMapping("{id}")
 	public String show(@PathVariable Long id, Model model) {
@@ -83,15 +81,17 @@ public class BackendController {
 		model.addAttribute("post", postEntity);
 		return "show";
 	}
-	
+
 	@RequiresUser
 	@GetMapping("new")
 	public String newPost(@ModelAttribute("post") PostEntity postEntity, Model model) {
 		return "new";
 	}
-	
+
+	@RequiresUser
 	@GetMapping("{id}/edit")
-	public String edit(@PathVariable Long id, @ModelAttribute("post") PostEntity postEntity, Model model) {
+	public String edit(@PathVariable Long id, @ModelAttribute("post") PostEntity postEntity,
+			Model model) {
 		Post post = postService.findOne(id);
 		postEntity.setTheme(post.getTheme());
 		postEntity.setId(post.getId());
@@ -100,10 +100,11 @@ public class BackendController {
 		model.addAttribute("post", postEntity);
 		return "edit";
 	}
-	
+
 	@RequiresUser
 	@PostMapping
-	public String create(@ModelAttribute("post") @Validated PostEntity postEntity, BindingResult result, Model model) {
+	public String create(@ModelAttribute("post") @Validated PostEntity postEntity,
+			BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "new";
 		} else {
@@ -111,10 +112,12 @@ public class BackendController {
 			return "redirect:/posts";
 		}
 	}
-	
+
 	@RequiresUser
 	@PutMapping("{id}")
-	public String update(@PathVariable Long id, @ModelAttribute("post") @Validated PostEntity postEntity, BindingResult result, Model model) {
+	public String update(@PathVariable Long id,
+			@ModelAttribute("post") @Validated PostEntity postEntity, BindingResult result,
+			Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("post", postEntity);
 			return "edit";
@@ -124,11 +127,11 @@ public class BackendController {
 			return "redirect:/posts";
 		}
 	}
-	
+
 	@RequiresUser
 	@DeleteMapping("{id}")
 	public String delete(@PathVariable Long id) {
 		postService.delete(id);
-		return "redirect:/posts"; 
+		return "redirect:/posts";
 	}
 }
